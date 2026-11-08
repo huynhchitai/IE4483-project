@@ -6,3 +6,7 @@ joblib
 
 # Charts and PDF report generation
 -r analysis/requirements-report.txt
+
+# GRU classifier (gru_classifier/)
+torch
+ipykernel
