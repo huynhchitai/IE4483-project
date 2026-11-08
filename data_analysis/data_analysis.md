@@ -73,21 +73,21 @@ Negative reviews are longer at the median. People explain what went wrong.
 ![duplicates](figures/04_duplicates.png)
 
 A normal stratified split puts copies of the same review on both sides, so validation rewards memorisation.
-The shared split (`common/data.py` → `data/split.json`) is therefore **stratified + grouped by exact text, 80/20, seed 42**.
+The shared split (`analysis/split_data.py` → `data/split_manifest.json`, `train_splitted.json`, `valid_splitted.json`) is therefore **stratified + grouped by exact text, 80/20, seed 42**.
 
 ![split](figures/05_split.png)
 
 | | Row-level split (`train_test_split`) | **Shared grouped split** |
 |---|---|---|
-| Train / val rows | 5,920 / 1,481 | **5,920 / 1,481** |
-| Val negative / positive | 217 / 1,264 | **217 / 1,264** |
+| Train / val rows | 5,920 / 1,481 | **5,921 / 1,480** |
+| Val negative / positive | 217 / 1,264 | **216 / 1,264** |
 | Val rows whose text is in train | 73 | **0** |
 
 Rules for everyone:
-- Use `get_split()` only. Never re-split.
+- Use the saved split files (Python: `common.data.get_split()`). Never re-split.
 - Fit the vocabulary, TF-IDF and class weights on the **train side only**.
 - Keep test out of every decision.
-- Val has only 217 negatives, so **1 missed negative = 0.46 pp of negative recall**. Small differences between models are noise; compare over several seeds.
+- Val has only 216 negatives, so **1 missed negative = 0.46 pp of negative recall**. Small differences between models are noise; compare over several seeds.
 
 ## 4. What the words say (Naive Bayes view)
 
@@ -108,12 +108,12 @@ Bayes' rule with the naive independence assumption scores each word by its log-l
 
 ![vocab](figures/08_vocab.png)
 
-Word frequency follows **Zipf's law**: 6,012 words appear only once.
+Word frequency follows **Zipf's law**: 6,070 words appear only once.
 
 | `min_freq` | 1 | **2** | 3 | 5 | 10 |
 |---|---|---|---|---|---|
-| Vocabulary size (train split) | 12,910 | **6,898** | 5,153 | 3,676 | 2,305 |
-| Val tokens → `<unk>` | 2.0% | **3.1%** | 3.8% | 5.1% | 7.4% |
+| Vocabulary size (train split) | 13,095 | **7,025** | 5,206 | 3,711 | 2,297 |
+| Val tokens → `<unk>` | 1.9% | **2.8%** | 3.6% | 4.8% | 7.3% |
 
 `min_freq = 2` halves the vocabulary (fewer embedding parameters, less overfitting) at the cost of only about 1 pp more unknown words.
 
@@ -147,9 +147,9 @@ The clusters are **product topics** (shoes, bras, bags, shirts). Every cluster h
 | Section | Use |
 |---|---|
 | (a) preprocessing | lowercase; keep negations and `!`/`?`; no HTML cleaning needed; vocabulary from train only, `min_freq=2`; `max_len` 150–200 |
-| (c) tuning | select on **val macro-F1**; 217 val negatives → average over seeds; regularize (vocabulary pruning, dropout, L2, early stopping) |
+| (c) tuning | select on **val macro-F1**; 216 val negatives → average over seeds; regularize (vocabulary pruning, dropout, L2, early stopping) |
 | (e) examples | avoid the 101 test reviews that are copies of train reviews; use negation ("not bad") and contrast ("great but ripped") cases |
-| (f) features | TF-IDF ≈ 38k sparse dims (uni+bigram) vs GRU 6.9k-word vocabulary with dense embeddings |
+| (f) features | TF-IDF ≈ 38k sparse dims (uni+bigram) vs GRU 7.0k-word vocabulary with dense embeddings |
 | (g) no labels | clusters = topics, not sentiment (Section 6) → domain adaptation / pseudo-labels |
 | (h) noisy labels | labels come from star ratings (Blitzer et al. 2007), so some noise already exists; Section 3's duplicates have consistent labels |
 

@@ -1,0 +1,8 @@
+{
+ "run_ids": [
+  "lr0.003_h128_e128_l1bi_do0.5_len200_cw1_ep15_wd0.0001_s42",
+  "lr0.003_h128_e128_l1bi_do0.5_len200_cw1_ep15_wd0.0001_s7",
+  "lr0.003_h128_e128_l1bi_do0.5_len200_cw1_ep15_wd0.0001_s123"
+ ],
+ "threshold": 0.42
+}
