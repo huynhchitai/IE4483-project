@@ -13,6 +13,27 @@ The full brief, marks and dependencies are in [PROJECT.md](PROJECT.md). The orig
 
 ## Quick start
 
+### Shared train/validation split
+
+Use `data/train_splitted.json` (5,921 rows: 866 negative, 5,055 positive)
+and `data/valid_splitted.json` (1,480 rows: 216 negative, 1,264 positive)
+for all baseline and GRU experiments. Both retain the original `reviews` and
+`sentiments` fields. Fit vocabularies, TF-IDF and class weights on the training
+partition only.
+
+The split targets 80/20 per class with seed 42, keeping all identical review
+strings together. It retains all 7,401 rows, preserves original row order within
+each output, and has zero exact-text overlap between partitions. Grouping uses
+the original text, including case and whitespace; near-duplicates may remain.
+`data/split_manifest.json` records source/output fingerprints, indices and the
+precise deterministic algorithm. Regenerate with `python analysis/split_data.py`
+(standard library only). `analysis/eda.py` below runs the earlier exploratory
+row-level split; its baseline scores are not scores on this shared split.
+
+See [dataset analysis](reports/dataset_analysis.pdf) and
+[train-only split preparation](reports/train_split_analysis.pdf) for descriptive
+statistics and diagnostic simulations.
+
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt

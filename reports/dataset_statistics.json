@@ -1,0 +1,58 @@
+{
+  "class_counts": {
+    "1": 6319,
+    "0": 1082
+  },
+  "datasets": {
+    "train": {
+      "rows": 7401,
+      "fields": [
+        "reviews",
+        "sentiments"
+      ],
+      "bytes": 2663431,
+      "sha256": "72ad980f35c5197156c89bbe26e466e448e406ef923473952dd6716372352b43",
+      "unique_texts": 7185,
+      "duplicate_extra_rows": 216,
+      "empty_reviews": 0,
+      "missing_review_fields": 0,
+      "token_count": 418030,
+      "vocabulary_size": 14103,
+      "length": {
+        "min": 4.0,
+        "mean": 56.482907715173624,
+        "median": 42.0,
+        "p90": 108.0,
+        "p95": 142.0,
+        "p99": 267.0,
+        "max": 1045.0
+      }
+    },
+    "test": {
+      "rows": 1851,
+      "fields": [
+        "reviews"
+      ],
+      "bytes": 611089,
+      "sha256": "f4d887f020b9113dd642205188019ca635d9d2894cd37b109da28ba1b5a00027",
+      "unique_texts": 1830,
+      "duplicate_extra_rows": 21,
+      "empty_reviews": 0,
+      "missing_review_fields": 0,
+      "token_count": 102286,
+      "vocabulary_size": 7098,
+      "length": {
+        "min": 5.0,
+        "mean": 55.259859535386276,
+        "median": 41.0,
+        "p90": 110.0,
+        "p95": 148.0,
+        "p99": 237.5,
+        "max": 753.0
+      }
+    }
+  },
+  "overlap_unique_texts": 87,
+  "overlap_test_rows": 101,
+  "conflicting_train_texts": 0
+}
