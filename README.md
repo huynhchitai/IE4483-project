@@ -83,7 +83,9 @@ statistics and diagnostic simulations.
 See [baseline/README.md](baseline/README.md) for the shared-split TF-IDF +
 Logistic Regression implementation. Run `.venv/bin/python baseline/train.py --dry-run` to verify inputs without
 training. When ready, `.venv/bin/python baseline/train.py` trains and exports
-metrics and a fitted pipeline. No new real-data baseline scores are reported yet.
+metrics and a fitted pipeline. The verified baseline reaches 92.23% validation
+accuracy and 0.8490 macro-F1. See [results/baseline/baseline_report.md](results/baseline/baseline_report.md)
+or [the PDF](results/baseline/baseline_report.pdf) for metrics and resource measurements.
 
 ### Analysis and PDF reports
 

@@ -1,6 +1,8 @@
 # TF-IDF + Logistic Regression baseline
 
-Prepared for the saved shared split. No production training run has been made.
+Uses the saved shared split. Verified baseline results are available in
+[results/baseline/baseline_report.md](../results/baseline/baseline_report.md) and
+[the PDF report](../results/baseline/baseline_report.pdf).
 Read [the method report](../reports/tfidf_logreg_method.pdf) first.
 
 From the repository root:
@@ -42,7 +44,38 @@ Examples for a later controlled comparison:
 .venv/bin/python baseline/train.py --class-weight none --output-dir artifacts/bigram_unweighted
 ```
 
-Initial hyperparameters are starting choices, not validation-selected winners.
+Export a report from an existing run without refitting:
+
+```bash
+.venv/bin/python baseline/report_results.py
+```
+
+This verifies the saved model, predictions and split, then writes the PDF,
+Markdown, exact metrics, verification fingerprints and summary CSV to `results/baseline/`.
+It requires the chart/PDF dependencies included in root `requirements.txt`.
+
+The initial defaults have now been checked in a 12-configuration validation
+grid: n-grams {unigram, unigram+bigram}, class weights {none, balanced}, and
+`C` {0.5, 1, 4}. The best tested validation macro-F1 is 0.8490 with the existing
+defaults (bigram, balanced, C=4). This is a single-split selection, not a global
+optimum or cross-validation estimate. See the
+[questions (b)/(c) report](../data_analysis/question_b_c_baseline.md) and
+[PDF](../results/baseline/question_b_c_baseline.pdf).
+
+Reproduce tuning into fresh output directories:
+
+```bash
+.venv/bin/python baseline/tune.py --output-dir results/baseline/tuning_reproduction --artifact-dir artifacts/tfidf_logreg_tuning_reproduction
+```
+
+Generate the (b)/(c) Markdown, PDF and architecture figure from recorded evidence:
+
+```bash
+.venv/bin/python baseline/report_b_c.py
+```
+
+The tuning script limits numerical libraries to one thread; its fit times are
+not directly comparable with the original run's resource measurements.
 Select by validation macro-F1 while checking negative recall. Weighted model
 probabilities need not be calibrated to the observed positive prevalence.
 No test predictions or final full-data refit are performed by this script.

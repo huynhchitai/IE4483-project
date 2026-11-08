@@ -1,0 +1,326 @@
+{
+  "selection_metric": "validation macro-F1; exact ties retain first enumerated configuration",
+  "grid": {
+    "ngram_max": [
+      1,
+      2
+    ],
+    "class_weight": [
+      "none",
+      "balanced"
+    ],
+    "C": [
+      0.5,
+      1.0,
+      4.0
+    ]
+  },
+  "fixed_settings": {
+    "min_df": 2,
+    "sublinear_tf": true,
+    "smooth_idf": true,
+    "norm": "l2",
+    "solver": "lbfgs",
+    "max_iter": 2000,
+    "tol": 0.0001,
+    "random_state": 42,
+    "threshold": 0.5,
+    "numerical_threads": 1
+  },
+  "split_manifest_sha256": "24af54ba2c8a3a0f325f93056b2f4d3d61dfae5f7dc200d6fd7f0ea19759dcfd",
+  "source_sha256": "72ad980f35c5197156c89bbe26e466e448e406ef923473952dd6716372352b43",
+  "versions": {
+    "python": "3.14.9",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4"
+  },
+  "trials": [
+    {
+      "ngram_max": 1,
+      "class_weight": "none",
+      "C": 0.5,
+      "accuracy": 0.8702702702702703,
+      "macro_f1": 0.5647058823529412,
+      "negative_recall": 0.1111111111111111,
+      "negative_precision": 1.0,
+      "feature_count": 6730,
+      "iterations": 22,
+      "fit_seconds_one_numerical_thread": 0.3000646512955427,
+      "confusion_matrix": [
+        [
+          24,
+          192
+        ],
+        [
+          0,
+          1264
+        ]
+      ]
+    },
+    {
+      "ngram_max": 1,
+      "class_weight": "none",
+      "C": 1.0,
+      "accuracy": 0.8885135135135135,
+      "macro_f1": 0.6796851942941466,
+      "negative_recall": 0.2777777777777778,
+      "negative_precision": 0.8695652173913043,
+      "feature_count": 6730,
+      "iterations": 22,
+      "fit_seconds_one_numerical_thread": 0.2878582924604416,
+      "confusion_matrix": [
+        [
+          60,
+          156
+        ],
+        [
+          9,
+          1255
+        ]
+      ]
+    },
+    {
+      "ngram_max": 1,
+      "class_weight": "none",
+      "C": 4.0,
+      "accuracy": 0.9101351351351351,
+      "macro_f1": 0.782907673999764,
+      "negative_recall": 0.49537037037037035,
+      "negative_precision": 0.816793893129771,
+      "feature_count": 6730,
+      "iterations": 38,
+      "fit_seconds_one_numerical_thread": 0.31258663535118103,
+      "confusion_matrix": [
+        [
+          107,
+          109
+        ],
+        [
+          24,
+          1240
+        ]
+      ]
+    },
+    {
+      "ngram_max": 1,
+      "class_weight": "balanced",
+      "C": 0.5,
+      "accuracy": 0.8871621621621621,
+      "macro_f1": 0.8054959436350602,
+      "negative_recall": 0.8194444444444444,
+      "negative_precision": 0.580327868852459,
+      "feature_count": 6730,
+      "iterations": 9,
+      "fit_seconds_one_numerical_thread": 0.3002886977046728,
+      "confusion_matrix": [
+        [
+          177,
+          39
+        ],
+        [
+          128,
+          1136
+        ]
+      ]
+    },
+    {
+      "ngram_max": 1,
+      "class_weight": "balanced",
+      "C": 1.0,
+      "accuracy": 0.9027027027027027,
+      "macro_f1": 0.8267317073170731,
+      "negative_recall": 0.8240740740740741,
+      "negative_precision": 0.6267605633802817,
+      "feature_count": 6730,
+      "iterations": 10,
+      "fit_seconds_one_numerical_thread": 0.36880762688815594,
+      "confusion_matrix": [
+        [
+          178,
+          38
+        ],
+        [
+          106,
+          1158
+        ]
+      ]
+    },
+    {
+      "ngram_max": 1,
+      "class_weight": "balanced",
+      "C": 4.0,
+      "accuracy": 0.9101351351351351,
+      "macro_f1": 0.8332394366197182,
+      "negative_recall": 0.7916666666666666,
+      "negative_precision": 0.6602316602316602,
+      "feature_count": 6730,
+      "iterations": 16,
+      "fit_seconds_one_numerical_thread": 0.28944503515958786,
+      "confusion_matrix": [
+        [
+          171,
+          45
+        ],
+        [
+          88,
+          1176
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "none",
+      "C": 0.5,
+      "accuracy": 0.8594594594594595,
+      "macro_f1": 0.4977025898078529,
+      "negative_recall": 0.037037037037037035,
+      "negative_precision": 1.0,
+      "feature_count": 38864,
+      "iterations": 20,
+      "fit_seconds_one_numerical_thread": 0.7352950572967529,
+      "confusion_matrix": [
+        [
+          8,
+          208
+        ],
+        [
+          0,
+          1264
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "none",
+      "C": 1.0,
+      "accuracy": 0.8743243243243243,
+      "macro_f1": 0.5907079646017699,
+      "negative_recall": 0.14351851851851852,
+      "negative_precision": 0.96875,
+      "feature_count": 38864,
+      "iterations": 21,
+      "fit_seconds_one_numerical_thread": 0.7083418481051922,
+      "confusion_matrix": [
+        [
+          31,
+          185
+        ],
+        [
+          1,
+          1263
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "none",
+      "C": 4.0,
+      "accuracy": 0.9081081081081082,
+      "macro_f1": 0.7643267951816257,
+      "negative_recall": 0.4351851851851852,
+      "negative_precision": 0.8703703703703703,
+      "feature_count": 38864,
+      "iterations": 30,
+      "fit_seconds_one_numerical_thread": 0.8037367966026068,
+      "confusion_matrix": [
+        [
+          94,
+          122
+        ],
+        [
+          14,
+          1250
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "balanced",
+      "C": 0.5,
+      "accuracy": 0.9033783783783784,
+      "macro_f1": 0.8242704992149299,
+      "negative_recall": 0.7962962962962963,
+      "negative_precision": 0.6346863468634686,
+      "feature_count": 38864,
+      "iterations": 12,
+      "fit_seconds_one_numerical_thread": 0.7077395729720592,
+      "confusion_matrix": [
+        [
+          172,
+          44
+        ],
+        [
+          99,
+          1165
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "balanced",
+      "C": 1.0,
+      "accuracy": 0.9087837837837838,
+      "macro_f1": 0.8324386384087876,
+      "negative_recall": 0.8009259259259259,
+      "negative_precision": 0.6528301886792452,
+      "feature_count": 38864,
+      "iterations": 12,
+      "fit_seconds_one_numerical_thread": 0.639439307153225,
+      "confusion_matrix": [
+        [
+          173,
+          43
+        ],
+        [
+          92,
+          1172
+        ]
+      ]
+    },
+    {
+      "ngram_max": 2,
+      "class_weight": "balanced",
+      "C": 4.0,
+      "accuracy": 0.9222972972972973,
+      "macro_f1": 0.8490383958688674,
+      "negative_recall": 0.7731481481481481,
+      "negative_precision": 0.7167381974248928,
+      "feature_count": 38864,
+      "iterations": 16,
+      "fit_seconds_one_numerical_thread": 0.6981210466474295,
+      "confusion_matrix": [
+        [
+          167,
+          49
+        ],
+        [
+          66,
+          1198
+        ]
+      ]
+    }
+  ],
+  "best": {
+    "ngram_max": 2,
+    "class_weight": "balanced",
+    "C": 4.0,
+    "accuracy": 0.9222972972972973,
+    "macro_f1": 0.8490383958688674,
+    "negative_recall": 0.7731481481481481,
+    "negative_precision": 0.7167381974248928,
+    "feature_count": 38864,
+    "iterations": 16,
+    "fit_seconds_one_numerical_thread": 0.6981210466474295,
+    "confusion_matrix": [
+      [
+        167,
+        49
+      ],
+      [
+        66,
+        1198
+      ]
+    ]
+  },
+  "limits": "Single shared validation split; selected score is subject to model-selection optimism. Times are not directly comparable with the earlier baseline run, whose thread allocation was not recorded."
+}
