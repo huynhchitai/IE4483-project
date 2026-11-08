@@ -5,10 +5,15 @@ Group of 3, and the report must list members and each member's contribution.
 
 Full brief: [docs/IE4483-Project1.pdf](docs/IE4483-Project1.pdf) · Task split: [docs/task-split.jpg](docs/task-split.jpg)
 
-## Data
-- `train.json`, `test.json` (put in `data/`). Fields: `reviews` (raw text), `sentiments` (0 = negative, 1 = positive).
-- Example notebook from the course: `tfidf_features_example.ipynb`.
-- Not in the repo yet; download from NTULearn.
+## Data (in `data/`, copied from the NTULearn course files)
+- `train.json`: 7,401 reviews, fields `reviews` (raw text) and `sentiments` (0 = negative, 1 = positive).
+  **Imbalanced: 6,319 positive (85%) / 1,082 negative (15%).** Always report F1 or macro-F1 as well as accuracy.
+  An "always positive" classifier already scores about 85% accuracy.
+- `test.json`: 1,851 reviews, `reviews` only.
+- `submission_template.csv`: the course-provided `submission.csv`. Columns `reviews,predictions`, 1,851 rows,
+  same order as `test.json`, all predictions 0. **Our `submission.csv` must keep this format and order.**
+- `sampleSubmission.csv`: `id,label`, 500 rows. Does not match this dataset (probably from Option 2); ignore it.
+- Example notebook from the course: `tfidf_features_example.ipynb` (repo root).
 - Note: the brief calls them "csv files" and says `test.csv` in (d), but the data files are JSON.
 
 ## Report questions (marks)
