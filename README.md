@@ -38,9 +38,8 @@ each member creates their own environment after cloning.
 
 ### Validate and run the baseline
 
-The baseline code and method report are prepared locally and will be published
-in a separate commit. The commands below apply once `baseline/train.py` is
-available in your checkout.
+The baseline implementation is in `baseline/train.py`; its method report is
+available at [reports/tfidf_logreg_method.pdf](reports/tfidf_logreg_method.pdf).
 
 With the environment activated:
 
@@ -81,10 +80,8 @@ See [dataset analysis](reports/dataset_analysis.pdf) and
 [train-only split preparation](reports/train_split_analysis.pdf) for descriptive
 statistics and diagnostic simulations.
 
-The shared-split TF-IDF + Logistic Regression implementation is prepared locally
-in `baseline/`, with a method report at `reports/tfidf_logreg_method.pdf`.
-Once these are published,
-then run `.venv/bin/python baseline/train.py --dry-run` to verify inputs without
+See [baseline/README.md](baseline/README.md) for the shared-split TF-IDF +
+Logistic Regression implementation. Run `.venv/bin/python baseline/train.py --dry-run` to verify inputs without
 training. When ready, `.venv/bin/python baseline/train.py` trains and exports
 metrics and a fitted pipeline. No new real-data baseline scores are reported yet.
 
@@ -97,8 +94,7 @@ python analysis/dataset_report.py
 python analysis/train_split_report.py
 ```
 
-After the baseline method-report generator is published, regenerate its PDF
-with `python analysis/baseline_method_report.py`.
+Regenerate the baseline method PDF with `python analysis/baseline_method_report.py`.
 
 These regenerate the PDFs under `reports/`. For the earlier exploratory EDA
 and baseline scores quoted below, run `python analysis/eda.py`; that script

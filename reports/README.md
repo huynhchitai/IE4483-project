@@ -29,3 +29,13 @@ Regenerate with `.venv/bin/python analysis/train_split_report.py`. Exact results
 and the input fingerprint are in `train_split_statistics.json`. The diagnostic
 row split uses Python's random generator, not the sklearn split in the original
 EDA, so its overlap count is specific to this simulation.
+
+## Baseline method and implementation preparation
+
+`tfidf_logreg_method.pdf` explains TF-IDF, Logistic Regression, illustrative
+calculations, the proposed configuration, evaluation and implementation plan.
+The editable source is `tfidf_logreg_method.md`; regenerate the PDF with
+`.venv/bin/python analysis/baseline_method_report.py`.
+Official documentation links are included in the report. This is a methods
+report, with no newly trained real-data results. Prepared training code and
+run instructions are in `baseline/`.
