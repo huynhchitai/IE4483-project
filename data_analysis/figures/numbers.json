@@ -1,0 +1,248 @@
+{
+ "labels": {
+  "neg": 1082,
+  "pos": 6319,
+  "ratio": 5.84,
+  "majority_acc": 0.8538
+ },
+ "length": {
+  "train": {
+   "count": 7401.0,
+   "mean": 56.5,
+   "std": 53.1,
+   "min": 4.0,
+   "50%": 42.0,
+   "90%": 108.0,
+   "95%": 142.0,
+   "99%": 267.0,
+   "max": 1045.0
+  },
+  "test": {
+   "count": 1851.0,
+   "mean": 55.3,
+   "std": 49.9,
+   "min": 5.0,
+   "50%": 41.0,
+   "90%": 110.0,
+   "95%": 148.0,
+   "99%": 237.5,
+   "max": 753.0
+  },
+  "coverage_gru": {
+   "100": 87.9,
+   "150": 95.4,
+   "200": 97.7,
+   "300": 99.3
+  }
+ },
+ "dup": {
+  "unique": 7185,
+  "extra_rows": 216,
+  "groups_multi": 151,
+  "test_in_train": 101
+ },
+ "split": {
+  "naive_leak": 73,
+  "grouped_leak": 0,
+  "train": 5920,
+  "val": 1481,
+  "val_neg": 217,
+  "val_pos": 1264
+ },
+ "logodds": {
+  "neg": [
+   "poorly",
+   "ripped",
+   "worst",
+   "waste",
+   "returned",
+   "horrible",
+   "poor",
+   "returning",
+   "terrible",
+   "refund",
+   "policy",
+   "paper",
+   "disappointed",
+   "china",
+   "awful"
+  ],
+  "pos": [
+   "lightweight",
+   "enjoy",
+   "highly",
+   "compliments",
+   "loves",
+   "fantastic",
+   "worry",
+   "miles",
+   "snow",
+   "sexy",
+   "future",
+   "confortable",
+   "clarks",
+   "sneaker",
+   "convenient"
+  ]
+ },
+ "cues": [
+  {
+   "word": "not",
+   "neg": 51.8,
+   "pos": 23.0
+  },
+  {
+   "word": "n't",
+   "neg": 32.3,
+   "pos": 23.0
+  },
+  {
+   "word": "no",
+   "neg": 13.6,
+   "pos": 9.2
+  },
+  {
+   "word": "but",
+   "neg": 39.7,
+   "pos": 31.3
+  },
+  {
+   "word": "however",
+   "neg": 7.2,
+   "pos": 3.4
+  },
+  {
+   "word": "return",
+   "neg": 9.2,
+   "pos": 1.1
+  },
+  {
+   "word": "refund",
+   "neg": 3.3,
+   "pos": 0.3
+  },
+  {
+   "word": "small",
+   "neg": 9.0,
+   "pos": 5.0
+  },
+  {
+   "word": "size",
+   "neg": 17.6,
+   "pos": 14.4
+  },
+  {
+   "word": "fit",
+   "neg": 13.8,
+   "pos": 15.3
+  },
+  {
+   "word": "love",
+   "neg": 3.4,
+   "pos": 15.5
+  },
+  {
+   "word": "great",
+   "neg": 7.3,
+   "pos": 28.4
+  }
+ ],
+ "vocab": {
+  "min_freq": [
+   1,
+   2,
+   3,
+   5,
+   10
+  ],
+  "vocab_size": [
+   12910,
+   6898,
+   5153,
+   3676,
+   2305
+  ],
+  "val_unk_pct": [
+   2.03,
+   3.06,
+   3.82,
+   5.08,
+   7.39
+  ],
+  "singletons": 6012
+ },
+ "svd_var_100": 0.235,
+ "kmeans": {
+  "k": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ],
+  "nmi": [
+   0.0017,
+   0.0021,
+   0.0017,
+   0.0018,
+   0.0018,
+   0.0036,
+   0.0046,
+   0.0149,
+   0.0107
+  ],
+  "max_neg_purity": [
+   0.153,
+   0.169,
+   0.172,
+   0.176,
+   0.178,
+   0.207,
+   0.207,
+   0.282,
+   0.216
+  ],
+  "k6": [
+   {
+    "cluster": 0,
+    "size": 520,
+    "neg_pct": 12.3,
+    "top_terms": "shirt, warm, great, cold, like, good, feet, nice"
+   },
+   {
+    "cluster": 1,
+    "size": 323,
+    "neg_pct": 15.5,
+    "top_terms": "bra, bras, support, comfortable, sports, great, nursing, wear"
+   },
+   {
+    "cluster": 2,
+    "size": 1272,
+    "neg_pct": 12.2,
+    "top_terms": "shoes, shoe, comfortable, pair, feet, wear, great, love"
+   },
+   {
+    "cluster": 3,
+    "size": 2623,
+    "neg_pct": 13.9,
+    "top_terms": "comfortable, wear, like, just, fit, size, great, love"
+   },
+   {
+    "cluster": 4,
+    "size": 674,
+    "neg_pct": 13.9,
+    "top_terms": "bag, case, use, wallet, great, carry, pocket, ipod"
+   },
+   {
+    "cluster": 5,
+    "size": 1989,
+    "neg_pct": 17.8,
+    "top_terms": "quality, product, great, price, good, item, ordered, time"
+   }
+  ]
+ }
+}
