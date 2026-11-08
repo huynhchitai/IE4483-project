@@ -29,19 +29,19 @@ Full brief: [docs/IE4483-Project1.pdf](docs/IE4483-Project1.pdf) · Task split: 
 | h | Hotel reviews with **noisy labels**: effect + 3 improvement methods | 10% | P3 |
 
 ## Task split
-**Person 1: Data and baseline** (a, f, g · 30%)
+**Person 1: Data and baseline (Vũ Ngọc Linh)** (a, f, g · 30%)
 - Load data; make a **shared train/validation split** (fixed seed) everyone uses.
 - TF-IDF + logistic regression baseline; fit TF-IDF on **training reviews only**.
 - Document preprocessing (a).
 - Compare TF-IDF vs Person 2's features: validation accuracy, runtime, memory (f).
 - Discuss adapting to unlabeled hotel reviews (g).
 
-**Person 2: Neural model and tuning** (b, c · 30%)
+**Person 2: Neural model and tuning (Tai Huynh)** (b, c · 30%)
 - Embedding → GRU → linear classifier.
 - Architecture figure, I/O dims, loss, training procedure, code, run instructions (b).
 - Sweep learning rates and hidden sizes on the shared validation split; record seed, results, reason for final choice (c).
 
-**Person 3: Evaluation and submission** (d, e, h · 40%)
+**Person 3: Evaluation and submission (Richard Yeo)** (d, e, h · 40%)
 - Write evaluation + CSV export code using Person 1's baseline first.
 - After final model is chosen: generate `submission.csv`, check row order, row count, label mapping (0 neg, 1 pos) (d).
 - Discuss 1–2 test reviews (one correct, one wrong) for strength and weakness (e).
