@@ -44,9 +44,9 @@
  "split": {
   "naive_leak": 73,
   "grouped_leak": 0,
-  "train": 5921,
-  "val": 1480,
-  "val_neg": 216,
+  "train": 5920,
+  "val": 1481,
+  "val_neg": 217,
   "val_pos": 1264
  },
  "logodds": {
@@ -79,10 +79,10 @@
    "snow",
    "sexy",
    "future",
-   "clarks",
    "confortable",
-   "convenient",
-   "sneaker"
+   "clarks",
+   "sneaker",
+   "convenient"
   ]
  },
  "cues": [
@@ -156,20 +156,20 @@
    10
   ],
   "vocab_size": [
-   13095,
-   7025,
-   5206,
-   3711,
-   2297
+   12910,
+   6898,
+   5153,
+   3676,
+   2305
   ],
   "val_unk_pct": [
-   1.91,
-   2.84,
-   3.58,
-   4.78,
-   7.25
+   2.03,
+   3.06,
+   3.82,
+   5.08,
+   7.39
   ],
-  "singletons": 6070
+  "singletons": 6012
  },
  "svd_var_100": 0.235,
  "kmeans": {
