@@ -1,0 +1,161 @@
+{
+  "accuracy": 0.9222972972972973,
+  "macro_f1": 0.8490383958688674,
+  "classification_report": {
+    "negative": {
+      "precision": 0.7167381974248928,
+      "recall": 0.7731481481481481,
+      "f1-score": 0.7438752783964365,
+      "support": 216.0
+    },
+    "positive": {
+      "precision": 0.9607056936647955,
+      "recall": 0.9477848101265823,
+      "f1-score": 0.9542015133412983,
+      "support": 1264.0
+    },
+    "accuracy": 0.9222972972972973,
+    "macro avg": {
+      "precision": 0.8387219455448441,
+      "recall": 0.8604664791373653,
+      "f1-score": 0.8490383958688674,
+      "support": 1480.0
+    },
+    "weighted avg": {
+      "precision": 0.925099626645999,
+      "recall": 0.9222972972972973,
+      "f1-score": 0.9235052520250211,
+      "support": 1480.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      167,
+      49
+    ],
+    [
+      66,
+      1198
+    ]
+  ],
+  "confusion_matrix_order": "rows=true, columns=predicted; labels=[0, 1]",
+  "always_positive": {
+    "accuracy": 0.8540540540540541,
+    "macro_f1": 0.4606413994169096,
+    "classification_report": {
+      "negative": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 216.0
+      },
+      "positive": {
+        "precision": 0.8540540540540541,
+        "recall": 1.0,
+        "f1-score": 0.9212827988338192,
+        "support": 1264.0
+      },
+      "accuracy": 0.8540540540540541,
+      "macro avg": {
+        "precision": 0.42702702702702705,
+        "recall": 0.5,
+        "f1-score": 0.4606413994169096,
+        "support": 1480.0
+      },
+      "weighted avg": {
+        "precision": 0.7294083272461651,
+        "recall": 0.8540540540540541,
+        "f1-score": 0.786825309274289,
+        "support": 1480.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        216
+      ],
+      [
+        0,
+        1264
+      ]
+    ],
+    "confusion_matrix_order": "rows=true, columns=predicted; labels=[0, 1]"
+  },
+  "config": {
+    "C": 4.0,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "class_weight": "balanced",
+    "sublinear_tf": true,
+    "smooth_idf": true,
+    "norm": "l2",
+    "lowercase": true,
+    "stop_words": null,
+    "token_pattern": "(?u)\\b\\w+(?:['\u2019]\\w+)*\\b",
+    "dtype": "float64",
+    "solver": "lbfgs",
+    "regularization": "L2 (solver default)",
+    "max_iter": 2000,
+    "random_state": 42,
+    "decision_threshold": 0.5
+  },
+  "counts": {
+    "train": {
+      "rows": 5921,
+      "labels": {
+        "1": 5055,
+        "0": 866
+      }
+    },
+    "validation": {
+      "rows": 1480,
+      "labels": {
+        "1": 1264,
+        "0": 216
+      }
+    }
+  },
+  "features": {
+    "train": {
+      "shape": [
+        5921,
+        38864
+      ],
+      "nnz": 487630,
+      "density": 0.00211908246558276,
+      "csr_array_bytes": 5875248
+    },
+    "validation": {
+      "shape": [
+        1480,
+        38864
+      ],
+      "nnz": 110830,
+      "density": 0.0019268509452227032,
+      "csr_array_bytes": 1335884
+    }
+  },
+  "fit_seconds_including_vectorization": 5.391742143779993,
+  "validation_predict_proba_seconds_including_transform": 0.15747537650167942,
+  "process_peak_rss_bytes": 197738496,
+  "memory_note": "Process lifetime peak includes imports and diagnostics; CSR bytes count numeric arrays only, not vocabulary or Python objects.",
+  "versions": {
+    "python": "3.14.9",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4",
+    "joblib": "1.6.0"
+  },
+  "split_source_sha256": "72ad980f35c5197156c89bbe26e466e448e406ef923473952dd6716372352b43",
+  "split_manifest_sha256": "24af54ba2c8a3a0f325f93056b2f4d3d61dfae5f7dc200d6fd7f0ea19759dcfd",
+  "split_output_sha256": {
+    "train_splitted.json": "33f0dc95aa877efd4df3db2c541256790803b5671dd5db8665098504d3c9f8b5",
+    "valid_splitted.json": "c276b5f5751a6221b4d3977bb49000b09f8d688cd14bccaf3b436f65b6c659ab"
+  },
+  "classifier_iterations": [
+    16
+  ],
+  "model_file_bytes": 1212228
+}

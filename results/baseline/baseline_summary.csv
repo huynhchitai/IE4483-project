@@ -1,0 +1,2 @@
+model,accuracy,macro_f1,negative_recall,fit_seconds,validation_predict_seconds,peak_process_rss_bytes,training_csr_bytes,feature_dimensions,model_file_bytes
+TF-IDF + Logistic Regression,0.9222972972972973,0.8490383958688674,0.7731481481481481,5.391742143779993,0.15747537650167942,197738496,5875248,38864,1212228

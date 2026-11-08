@@ -1,0 +1,14 @@
+{
+  "run_directory": "artifacts/tfidf_logreg",
+  "metrics_sha256": "5ce09b642d7a9b2c83e28cbf664f592f844570071443c42fbcd197a0755d4e06",
+  "model_sha256": "883b31347426e97eb19a1514e4c09d6c2a57350f7f0afba57a364aef0bad2511",
+  "checks": [
+    "shared split hashes",
+    "saved model validation scores",
+    "prediction rows and probabilities",
+    "feature shapes, nonzeros and CSR array bytes",
+    "serialized model size"
+  ],
+  "training_repeated": false,
+  "timing_and_peak_memory": "Copied from the original run; verification inference is not included."
+}
