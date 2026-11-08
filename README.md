@@ -13,6 +13,53 @@ The full brief, marks and dependencies are in [PROJECT.md](PROJECT.md). The orig
 
 ## Quick start
 
+### Environment setup (Linux/macOS)
+
+Use a separate virtual environment for this repository. After cloning, run
+these commands from the repository root (the folder containing this README):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m pip check
+```
+
+`requirements.txt` installs the data-analysis, baseline, chart and PDF libraries:
+NumPy, pandas, scikit-learn (imported as `sklearn`), joblib, Matplotlib and
+ReportLab. The baseline uses CPU; no CUDA setup is needed. The GRU will need
+its own framework dependencies when implemented.
+
+On subsequent terminal sessions, activate the existing environment with
+`source .venv/bin/activate`; there is no need to recreate it. In VS Code, use
+**Python: Select Interpreter** and choose `.venv/bin/python` inside this repo.
+Run `deactivate` when finished. The `.venv/` directory is ignored by Git;
+each member creates their own environment after cloning.
+
+### Validate and run the baseline
+
+The baseline code and method report are prepared locally and will be published
+in a separate commit. The commands below apply once `baseline/train.py` is
+available in your checkout.
+
+With the environment activated:
+
+```bash
+# Check saved split fingerprints, indices and leakage without training
+python baseline/train.py --dry-run
+
+# Train TF-IDF + Logistic Regression on the shared split when ready
+python baseline/train.py
+```
+
+Training writes the fitted pipeline, metrics and validation predictions to
+`artifacts/tfidf_logreg/`. This directory is ignored by Git. For additional
+experiments, choose a new output directory with `--output-dir`; the script
+refuses to overwrite an existing non-empty result directory.
+
+Without activation, the equivalent command is
+`.venv/bin/python baseline/train.py --dry-run` (or omit `--dry-run` to train).
+
 ### Shared train/validation split
 
 Use `data/train_splitted.json` (5,921 rows: 866 negative, 5,055 positive)
@@ -34,11 +81,29 @@ See [dataset analysis](reports/dataset_analysis.pdf) and
 [train-only split preparation](reports/train_split_analysis.pdf) for descriptive
 statistics and diagnostic simulations.
 
+The shared-split TF-IDF + Logistic Regression implementation is prepared locally
+in `baseline/`, with a method report at `reports/tfidf_logreg_method.pdf`.
+Once these are published,
+then run `.venv/bin/python baseline/train.py --dry-run` to verify inputs without
+training. When ready, `.venv/bin/python baseline/train.py` trains and exports
+metrics and a fitted pipeline. No new real-data baseline scores are reported yet.
+
+### Analysis and PDF reports
+
+With the environment activated:
+
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python analysis/eda.py      # reproduces every number in this README
+python analysis/dataset_report.py
+python analysis/train_split_report.py
 ```
+
+After the baseline method-report generator is published, regenerate its PDF
+with `python analysis/baseline_method_report.py`.
+
+These regenerate the PDFs under `reports/`. For the earlier exploratory EDA
+and baseline scores quoted below, run `python analysis/eda.py`; that script
+fits models on its own row-level split and is separate from the shared-split
+baseline above.
 
 ```
 data/train.json               7,401 labelled reviews  {"reviews", "sentiments"}

@@ -1,3 +1,8 @@
+# Data analysis and the TF-IDF + Logistic Regression baseline
 numpy
 pandas
 scikit-learn
+joblib
+
+# Charts and PDF report generation
+-r analysis/requirements-report.txt
