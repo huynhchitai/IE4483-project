@@ -1,0 +1,30 @@
+{
+ "threshold": 0.42,
+ "validation": {
+  "accuracy": 0.9398648648648649,
+  "macro_f1": 0.8742696673186088,
+  "neg_recall": 0.7453703703703703,
+  "pos_recall": 0.9731012658227848,
+  "tn": 161,
+  "fp": 55,
+  "fn": 34,
+  "tp": 1230
+ },
+ "predicted_positive_rate": {
+  "validation": 0.8682432432432432,
+  "test": 0.8762830902215019
+ },
+ "share_confident_below_0.1_or_above_0.9": {
+  "validation": 0.8662162162162163,
+  "test": 0.8768233387358185
+ },
+ "agreement_with_baseline": {
+  "validation": 0.9459459459459459,
+  "test": 0.93354943273906,
+  "test_disagreements": 123
+ },
+ "validation_accuracy_where_models": {
+  "agree": 0.9557142857142857,
+  "disagree": 0.6625
+ }
+}

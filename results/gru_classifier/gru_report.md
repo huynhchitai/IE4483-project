@@ -162,7 +162,7 @@ Neither alternative clearly beats the final config, so the simpler options are k
 ![regimes](figures/fit_regimes.png)
 
 - **Underfit** (L2 = 0.1): the loss never drops.
-- **Good fit** (final config): validation loss is lowest around epochs 8–9, and early stopping keeps that epoch.
+- **Good fit** (final config, seed 42): validation loss is lowest around epochs 8–9 and then rises, while validation macro-F1 keeps improving (0.830 at epoch 9, 0.854 at epoch 15). Checkpoints are chosen by the highest validation macro-F1, not the lowest loss, so the kept epoch is 15 (13 and 11 for the other two seeds).
 - **Overfit** (embed 256, hidden 256, no regularization): train loss goes to 0 while validation loss climbs from epoch 2.
 
 **Data size.** Adding data shrinks the gap. The validation curve has not levelled off, so more labelled reviews would still help.
