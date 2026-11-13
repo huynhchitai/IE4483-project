@@ -1,0 +1,12 @@
+{
+ "review 1: original": 0.925,
+ "review 1: sentence 1 removed": 0.157,
+ "review 1: word 'pleased' removed": 0.204,
+ "review 1: sentence 1 only": 1.0,
+ "review 1: sentence 1 moved to the end": 0.968,
+ "review 2: original": 0.004,
+ "review 2: sentence 1 only (praise)": 0.689,
+ "review 2: sentences 1-2 (praise + 'But' complaint)": 0.556,
+ "review 2: sentences 1 and 3 (praise + 'I returned them')": 0.06,
+ "review 2: 'returned' replaced by 'kept'": 0.53
+}

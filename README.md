@@ -7,7 +7,7 @@ Binary sentiment classification of Amazon clothing/shoe reviews (0 = negative, 1
 |---|---|---|---|
 | Vũ Ngọc Linh | 1: data, shared split, TF-IDF + LogReg baseline | (a), (f), (g) | done |
 | Tai Huynh | 2: Embedding → BiGRU → Linear, tuning | (b), (c) | done |
-| Richard Yeo | 3: evaluation, `submission.csv`, error analysis | (d), (e), (h) | in progress |
+| Richard Yeo | 3: evaluation, `submission.csv`, error analysis | (d), (e), (h) | done |
 
 ## Results (validation, official split: 1,480 reviews, 216 negative)
 
@@ -140,10 +140,9 @@ Measurements: [baseline_same_machine.json](results/baseline_same_machine.json) (
 
 ## Part 3: Evaluation and submission (Richard Yeo)
 
-To do: (d) `submission.csv`, (e) error analysis, (h) noisy labels.
-
-- **Submission format:** match `data/submission_template.csv`, i.e. columns `reviews,predictions`, 1,851 rows, `test.json` order.
-- **Input:** start from `results/gru_classifier/test_predictions.csv`.
+- **Submission:** [data/submission.csv](data/submission.csv). Columns `reviews,predictions`, 1,851 rows in `test.json` order; labels from the final BiGRU ensemble (threshold 0.42).
+- **Checks for section (d):** `python -m gru_classifier.test_check` writes the validation confusion matrix, the validation-vs-test probability histogram and the agreement with the baseline ([test_check.json](results/gru_classifier/test_check.json)).
+- **Examples for section (e):** `python -m gru_classifier.example_edits` re-runs the model on edited versions of the two reviews discussed in the report ([example_edits.json](results/gru_classifier/example_edits.json)).
 - **Ignore `data/sampleSubmission.csv`:** its `id,label` format belongs to the other project option.
 
 ## Data source

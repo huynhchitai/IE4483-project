@@ -45,7 +45,7 @@ The threshold 0.42 was tuned on the same validation set, so 0.874 is slightly op
 **Reproducibility:**
 - Fixed seeds, and the shuffle order is seeded per epoch.
 - Every epoch is checkpointed, so an interrupted run resumes where it stopped.
-- Results are reported as mean ± std over 3 seeds. Runs on CPU give about ±0.01 run-to-run noise, which is why single-run differences below 0.01 are treated as ties.
+- Results are reported as mean ± std over 3 seeds. Two separate runs of one configuration with the same seed give identical validation macro-F1 at every epoch; different seeds differ more (std 0.014), which is why single-run differences below 0.01 are treated as ties.
 
 **Cost (M4 Pro CPU, 4 runs in parallel):** 11–14 s/epoch and 2.5–3.5 min per run. The whole study (43 runs) took 113 CPU-minutes, about 45 min wall time.
 
