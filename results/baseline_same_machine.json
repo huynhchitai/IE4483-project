@@ -1,0 +1,30 @@
+{
+ "what": "TF-IDF + LogReg baseline re-timed on the machine used for the BiGRU, for report section (f)",
+ "command": "python baseline/train.py --output-dir artifacts/tfidf_logreg_same_<i>   (3 runs)",
+ "hardware": "Apple M4 Pro, arm64 CPU, sklearn 1.9.1",
+ "runs": [
+  {
+   "fit_seconds": 0.2906,
+   "val_predict_seconds": 0.0449,
+   "peak_rss_mib": 222.2,
+   "macro_f1": 0.849
+  },
+  {
+   "fit_seconds": 0.2779,
+   "val_predict_seconds": 0.0447,
+   "peak_rss_mib": 220.8,
+   "macro_f1": 0.849
+  },
+  {
+   "fit_seconds": 0.2655,
+   "val_predict_seconds": 0.0429,
+   "peak_rss_mib": 225.8,
+   "macro_f1": 0.849
+  }
+ ],
+ "mean": {
+  "fit_seconds": 0.278,
+  "val_predict_seconds": 0.0442,
+  "peak_rss_mib": 222.9
+ }
+}

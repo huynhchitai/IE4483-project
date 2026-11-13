@@ -5,7 +5,8 @@
 - [`baseline/question_b_c_baseline.pdf`](baseline/question_b_c_baseline.pdf):
   model architecture, training strategy, reproducibility and hyperparameter
   selection; [12-trial tuning evidence](baseline/tuning/tuning_results.csv).
-- `gru/`: reserved for future GRU results; no GRU experiment is reported yet.
+- [`gru_classifier/`](gru_classifier/): BiGRU tuning runs, figures, ensemble checkpoints, test predictions and the
+  [(b)/(c) report](gru_classifier/gru_report.md).
 
 Model binaries and row-level predictions remain in `artifacts/` (ignored by Git).
 Regenerate the baseline exports with:

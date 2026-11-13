@@ -1,236 +1,152 @@
 # IE4483 Mini Project (Option 1): Sentiment of Product Reviews
 
-Binary sentiment classifier (0 = negative, 1 = positive) for Amazon product reviews.
-**Due Friday 13 Nov 2026, 11:59pm on NTULearn:** the report and `submission.csv`.
+Binary sentiment classification of Amazon clothing/shoe reviews (0 = negative, 1 = positive).
+**Due Fri 13 Nov 2026, 11:59pm on NTULearn:** report + `submission.csv`. Brief: [docs/IE4483-Project1.pdf](docs/IE4483-Project1.pdf).
 
-| Member | Role | Report sections |
-|---|---|---|
-| Vũ Ngọc Linh | Person 1: data, shared split, TF-IDF + LogReg baseline | (a), (f), (g) · 30% |
-| Tai Huynh | Person 2: Embedding → GRU → Linear, hyperparameter tuning | (b), (c) · 30% |
-| Richard Yeo | Person 3: evaluation, `submission.csv`, error analysis | (d), (e), (h) · 40% |
+| Member | Part | Report sections | Status |
+|---|---|---|---|
+| Vũ Ngọc Linh | 1: data, shared split, TF-IDF + LogReg baseline | (a), (f), (g) | done |
+| Tai Huynh | 2: Embedding → BiGRU → Linear, tuning | (b), (c) | done |
+| Richard Yeo | 3: evaluation, `submission.csv`, error analysis | (d), (e), (h) | in progress |
 
-The full brief, marks and dependencies are in [PROJECT.md](PROJECT.md). The original PDFs are in [docs/](docs/).
+## Results (validation, official split: 1,480 reviews, 216 negative)
 
-## Quick start
+| Model | Macro-F1 | Accuracy | Negative recall | Report |
+|---|---|---|---|---|
+| Always "positive" | 0.461 | 0.854 | 0.000 | |
+| TF-IDF + Logistic Regression | 0.849 | 0.922 | 0.773 | [baseline_report.md](results/baseline/baseline_report.md) |
+| BiGRU, single model (3-seed mean ± std) | 0.858 ± 0.014 | 0.929 | 0.767 | [gru_report.md](results/gru_classifier/gru_report.md) |
+| BiGRU, 3-seed ensemble | 0.866 | 0.933 | 0.773 | |
+| **BiGRU, ensemble + threshold 0.42** | **0.874** | **0.940** | 0.745 | |
 
-### Environment setup (Linux/macOS)
+The threshold was tuned on validation, so 0.874 is optimistic; 0.866 is the untuned score.
+Test predictions from the final GRU: [results/gru_classifier/test_predictions.csv](results/gru_classifier/test_predictions.csv). It has 1,851 rows in `test.json` order and columns `reviews, predictions, prob_positive`.
 
-Use a separate virtual environment for this repository. After cloning, run
-these commands from the repository root (the folder containing this README):
+## Setup
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m pip check
+python -m pip install -r requirements.txt     # numpy, pandas, scikit-learn, joblib, matplotlib, reportlab, torch, ipykernel
 ```
 
-`requirements.txt` installs the data-analysis, baseline, chart and PDF libraries:
-NumPy, pandas, scikit-learn (imported as `sklearn`), joblib, Matplotlib and
-ReportLab. The baseline uses CPU; no CUDA setup is needed. The GRU will need
-its own framework dependencies when implemented.
+- Everything runs on CPU; no CUDA is needed.
+- In VS Code, select `.venv/bin/python` as the interpreter or notebook kernel.
 
-On subsequent terminal sessions, activate the existing environment with
-`source .venv/bin/activate`; there is no need to recreate it. In VS Code, use
-**Python: Select Interpreter** and choose `.venv/bin/python` inside this repo.
-Run `deactivate` when finished. The `.venv/` directory is ignored by Git;
-each member creates their own environment after cloning.
-
-### Validate and run the baseline
-
-The baseline implementation is in `baseline/train.py`; its method report is
-available at [reports/tfidf_logreg_method.pdf](reports/tfidf_logreg_method.pdf).
-
-With the environment activated:
-
-```bash
-# Check saved split fingerprints, indices and leakage without training
-python baseline/train.py --dry-run
-
-# Train TF-IDF + Logistic Regression on the shared split when ready
-python baseline/train.py
-```
-
-Training writes the fitted pipeline, metrics and validation predictions to
-`artifacts/tfidf_logreg/`. This directory is ignored by Git. For additional
-experiments, choose a new output directory with `--output-dir`; the script
-refuses to overwrite an existing non-empty result directory.
-
-Without activation, the equivalent command is
-`.venv/bin/python baseline/train.py --dry-run` (or omit `--dry-run` to train).
-
-### Shared train/validation split
-
-Use `data/train_splitted.json` (5,921 rows: 866 negative, 5,055 positive)
-and `data/valid_splitted.json` (1,480 rows: 216 negative, 1,264 positive)
-for all baseline and GRU experiments. Both retain the original `reviews` and
-`sentiments` fields. Fit vocabularies, TF-IDF and class weights on the training
-partition only.
-
-The split targets 80/20 per class with seed 42, keeping all identical review
-strings together. It retains all 7,401 rows, preserves original row order within
-each output, and has zero exact-text overlap between partitions. Grouping uses
-the original text, including case and whitespace; near-duplicates may remain.
-`data/split_manifest.json` records source/output fingerprints, indices and the
-precise deterministic algorithm. Regenerate with `python analysis/split_data.py`
-(standard library only). `analysis/eda.py` below runs the earlier exploratory
-row-level split; its baseline scores are not scores on this shared split.
-
-See [dataset analysis](reports/dataset_analysis.pdf) and
-[train-only split preparation](reports/train_split_analysis.pdf) for descriptive
-statistics and diagnostic simulations.
-
-See [baseline/README.md](baseline/README.md) for the shared-split TF-IDF +
-Logistic Regression implementation. Run `.venv/bin/python baseline/train.py --dry-run` to verify inputs without
-training. When ready, `.venv/bin/python baseline/train.py` trains and exports
-metrics and a fitted pipeline. The verified baseline reaches 92.23% validation
-accuracy and 0.8490 macro-F1. See [results/baseline/baseline_report.md](results/baseline/baseline_report.md)
-or [the PDF](results/baseline/baseline_report.pdf) for metrics and resource measurements.
-
-### Analysis and PDF reports
-
-With the environment activated:
-
-```bash
-python analysis/dataset_report.py
-python analysis/train_split_report.py
-```
-
-Regenerate the baseline method PDF with `python analysis/baseline_method_report.py`.
-
-These regenerate the PDFs under `reports/`. For the earlier exploratory EDA
-and baseline scores quoted below, run `python analysis/eda.py`; that script
-fits models on its own row-level split and is separate from the shared-split
-baseline above.
+## Repository layout
 
 ```
-data/train.json               7,401 labelled reviews  {"reviews", "sentiments"}
-data/test.json                1,851 unlabelled reviews {"reviews"}
-data/submission_template.csv  the course's submission.csv: reviews,predictions (all 0), test.json order
-data/sampleSubmission.csv     id,label, 500 rows. Does NOT match this dataset; ignore it
-tfidf_features_example.ipynb  course example notebook
-analysis/eda.py               data analysis + quick baselines
+data/                    train.json (7,401) · test.json (1,851) · official split (see below)
+analysis/                data reports, split_data.py (creates the shared split)
+reports/                 dataset / split / baseline-method PDFs
+data_analysis/           Part 1 write-ups: data_analysis.md, question_a.md, question_b_c_baseline.md, question_g.md
+baseline/                Part 1 code: TF-IDF + LogReg (train.py, tune.py, report_results.py)
+common/                  shared loader for the official split + metrics (used by the GRU)
+gru_classifier/          Part 2 code + run.ipynb
+results/baseline/        Part 1 metrics, tuning grid, figures
+results/gru_classifier/  Part 2 metrics, per-run histories, figures, checkpoints, test predictions
 ```
+
+## Shared split (everyone uses this)
+
+| File | Rows | Negative | Positive |
+|---|---|---|---|
+| `data/train_splitted.json` | 5,921 | 866 | 5,055 |
+| `data/valid_splitted.json` | 1,480 | 216 | 1,264 |
+
+- **How it's made:** 80/20, stratified by label, seed 42. Identical review texts always stay in the same part, so validation never contains a review copied from train.
+- **Files:** indices and fingerprints are in `data/split_manifest.json`; regenerate with `python analysis/split_data.py`.
+- **Rule:** fit vocabularies, TF-IDF and class weights on the training part only.
 
 ---
 
-## 1. Where the data comes from
+## Part 1: Data and TF-IDF baseline (Vũ Ngọc Linh)
 
-The brief cites **Blitzer, Dredze & Pereira (ACL 2007)**, which introduced the
-*Multi-Domain Sentiment Dataset* of Amazon reviews ([paper][acl07], [dataset page][mdsd]).
-
-- **How labels were made.** Each review has a 1–5 star rating. Reviews with **> 3 stars are positive** and reviews with **< 3 stars are negative**. 3-star reviews were **discarded** as ambiguous ([paper][acl07], §3).
-  So the labels are *derived from star ratings*, not hand-annotated, and the rating and the text can disagree. This matters for (h).
-- **Which domain.** The 2007 paper used only four domains: books, DVDs, electronics and kitchen. Our reviews are about **clothing and shoes**: the most frequent content words include *comfortable, shoes, size, wear, fit, pair, bra*.
-  This is most likely the *apparel* domain from the larger version 2.0 release ([v2.0 page][mdsd]). The official page doesn't list its domains, so this is our inference, not confirmed.
-- **Balance.** The paper's labelled sets were artificially balanced at 1,000 positive / 1,000 negative per domain. **Ours is not:** 85% positive. That looks like the natural Amazon rating distribution, so we cannot compare our accuracy directly with the paper's.
-- **The paper's reference numbers.** A linear classifier on unigram + bigram features, trained with 1,600 and tested on 400 balanced reviews, reached in-domain accuracy of
-  books 80.4%, DVD 82.4%, electronics 84.4%, kitchen 87.7% ([paper][acl07], Fig. 1).
-
-## 2. What the data looks like
-
-All numbers come from `analysis/eda.py`.
-
-| | Value |
+| Section | Document |
 |---|---|
-| Train / test size | 7,401 / 1,851 |
-| Class balance (train) | **6,319 positive (85.4%) / 1,082 negative (14.6%)** |
-| Review length (words) | median 42, mean 56.5, p90 108, p95 142, p99 267, max 1,045, min 4 |
-| Length by class | negative median **49** vs positive median **41** |
-| Duplicate texts in train | 216 extra copies (151 texts, up to 5 copies each). No conflicting labels |
-| Test reviews also in train | **101** (exact text match) |
-| HTML, URLs, empty reviews | none |
-| Contains a newline / `!!` / ALL-CAPS word | 16.5% / 5.1% / 9.0% |
+| Data analysis (charts, duplicates, vocabulary, clustering) | [data_analysis/data_analysis.md](data_analysis/data_analysis.md) |
+| (a) Feature format and preprocessing | [data_analysis/question_a.md](data_analysis/question_a.md) |
+| Baseline model, training and tuning | [data_analysis/question_b_c_baseline.md](data_analysis/question_b_c_baseline.md) |
+| Baseline results and resources | [results/baseline/baseline_report.md](results/baseline/baseline_report.md) |
+| (g) Hotel reviews without labels | [data_analysis/question_g.md](data_analysis/question_g.md) |
 
-**Words that separate the classes** (smoothed log-odds, words seen ≥ 20 times):
+**Model:**
+- **Features:** word unigram + bigram TF-IDF (`min_df=2`, sublinear TF, no stop-word removal), 38,864 sparse features.
+- **Classifier:** Logistic Regression with `C=4` and balanced class weights.
+- **Tuning:** a 12-trial grid over n-grams × class weights × C ([tuning_results.csv](results/baseline/tuning/tuning_results.csv)).
+  - Balanced class weights are essential: unweighted models catch only 4–50% of negatives.
 
-- **Negative:** *poorly, ripped, worst, waste, returned, horrible, poor, returning, terrible, refund, policy, disappointed, china, awful, return, manufacturer, smell, wool, polyester, broke, mistake*
-- **Positive:** *lightweight, enjoy, highly, compliments, loves, fantastic, comfortable/"confortable", clarks, sneaker, nike, terrific, classy, pleased, roomy, functional, easy*
+```bash
+python baseline/train.py --dry-run     # verify split files only
+python baseline/train.py               # train -> artifacts/tfidf_logreg/
+python baseline/report_results.py      # export results/baseline/
+```
 
-**Negation and contrast words** (share of reviews containing the word):
+## Part 2: BiGRU classifier (Tai Huynh)
 
-| Word | Negative reviews | Positive reviews |
+Full write-up for (b) and (c): **[results/gru_classifier/gru_report.md](results/gru_classifier/gru_report.md)**.
+
+**Model.** 7,025-word vocabulary → embedding 128 → BiGRU (hidden 128 per direction) → concat of final states (256) → linear → 2 classes. 1,097,858 parameters.
+
+**Training:**
+- Weighted cross-entropy: negative 3.42, positive 0.59.
+- Adam with lr 3e-3, dropout 0.5, L2 1e-4.
+- Early stopping on validation macro-F1, at most 15 epochs.
+
+**Final prediction:** average of 3 seeds, threshold 0.42.
+
+**Tuning, in stages:**
+1. lr × hidden size.
+2. dropout × L2.
+3. word dropout.
+4. seeds, pooling and epoch count.
+
+Then an ensemble and a threshold sweep, plus overfit/underfit studies:
+- **L2 sweep:** shows the U-curve from overfitting to underfitting.
+- **Data-size learning curve.**
+- **Capacity sweep.**
+
+| | |
+|---|---|
+| ![architecture](results/gru_classifier/figures/architecture.png) | ![regularization](results/gru_classifier/figures/regularization_curve.png) |
+
+```bash
+.venv/bin/python -m gru_classifier.run_notebook   # Run All on gru_classifier/run.ipynb (finished runs are reused)
+.venv/bin/python -m gru_classifier.summary        # results table
+.venv/bin/python -m gru_classifier.run_extra      # L2 sweep + 25-epoch runs
+.venv/bin/python -m gru_classifier.measure        # resources for (f) -> results/gru_classifier/resources.json
+```
+
+- **Re-running:** every epoch is checkpointed. Interrupt and re-run, and finished runs are skipped while unfinished ones resume.
+- **Run time:** a full re-run from scratch takes about 45 min on an Apple M4 Pro CPU (4 runs in parallel).
+
+## TF-IDF vs GRU (input for section f)
+
+| | TF-IDF + LogReg | BiGRU (final) |
 |---|---|---|
-| *not* | **52%** | 23% |
-| *n't* | 32% | 23% |
-| *but* | 40% | 31% |
-| *however* | 7% | 3% |
-| *return* | 9% | 1% |
+| Feature format | sparse 38,864-dim TF-IDF (word order only within bigrams) | dense 128-d embeddings for a sequence of up to 200 tokens (full word order) |
+| Trainable parameters | 38,865 | 1,097,858 |
+| Training time | 0.28 s (one fit) | ≈ 177 s per seed (4 runs in parallel, 2 threads each); 3 seeds |
+| Validation inference (1,480 reviews) | 0.044 s | 0.32 s per model (× 3 for the ensemble) |
+| Peak process memory | 223 MiB | 384 MiB (PyTorch inference process) |
+| Stored model | 1.2 MiB | 4.3 MiB per checkpoint (× 3) |
+| Validation macro-F1 | 0.849 | 0.858 (single) / 0.866 (ensemble) |
 
-**Quick baselines** (stratified 80/20 split, seed 42, `C=4`, `sublinear_tf`, `min_df=2`):
+Measurements: [baseline_same_machine.json](results/baseline_same_machine.json) (mean of 3 runs) and [resources.json](results/gru_classifier/resources.json), both on the same Apple M4 Pro CPU. The GRU runs were trained four at a time, so treat the training-time ratio as an order of magnitude. The original baseline run on another machine is in [baseline_metrics.json](results/baseline/baseline_metrics.json).
 
-| Model | Accuracy | Macro-F1 | Negative recall | Time |
-|---|---|---|---|---|
-| Always predict positive | 0.853 | 0.460 | 0.000 | – |
-| TF-IDF unigram + LogReg | 0.919 | 0.809 | 0.548 | 0.1 s |
-| TF-IDF unigram + LogReg, `class_weight="balanced"` | 0.910 | 0.836 | 0.816 | 0.1 s |
-| TF-IDF uni+bigram + LogReg | 0.918 | 0.793 | 0.479 | 0.3 s |
-| **TF-IDF uni+bigram + LogReg, balanced** | **0.926** | **0.858** | 0.793 | 0.3 s |
+**Summary:**
+- The GRU gains 0.01–0.02 macro-F1, because it reads word order such as "not … at all" or "great but ripped".
+- It costs about 28× more parameters, about 630× more training time per seed and about 7× the inference time per model.
 
-The best TF-IDF model has 37,919 features and 446k non-zeros (sparse). These validation numbers are slightly optimistic because of the duplicates (insight 3).
+## Part 3: Evaluation and submission (Richard Yeo)
 
-## 3. Key insights
+To do: (d) `submission.csv`, (e) error analysis, (h) noisy labels.
 
-1. **Accuracy alone is misleading.** Predicting "positive" for everything already gives 85.3%. Report **macro-F1 and negative-class recall** alongside accuracy, and show a confusion matrix.
-2. **Class imbalance hurts the minority class.** Without re-weighting, the bigram model catches only 48% of negative reviews. With `class_weight="balanced"` it catches 79%, and macro-F1 rises from 0.79 to 0.86.
-3. **Duplicates leak into validation.** In a naive random 80/20 split, **73 of 1,481 validation reviews** also appear word-for-word in the training part, which inflates validation scores. 101 test reviews are also in train, so predictions on those are partly memorisation.
-4. **Negation and contrast carry the signal.** *not* appears in over half of the negative reviews, and *but* / *however* are more common there too. Negative reviews are often mixed: "love the look **but** it ripped after one wash". Order-insensitive bag-of-words misses this; a sequence model like the GRU should do better here.
-5. **Negative sentiment is domain-specific.** It is about returns and refunds (*returned, refund, policy*), materials (*polyester, wool, smell*), fit (*small*: 9% of negative vs 5% of positive reviews), and origin (*china*).
-   Positive sentiment is about comfort and compliments. These words will not transfer to hotel reviews, which is the core of (g).
-6. **Minimal cleaning is needed.** There is no HTML or URLs. Do keep stop-words like *not / no / n't*, which standard stop-word lists remove. There are typos (*confortable*), so subword or character features would help.
-7. **The labels are noisy by construction.** They come from star ratings, and 3-star reviews were dropped. Some "positive" reviews read negatively and vice versa, which is real material for (e) and (h).
+- **Submission format:** match `data/submission_template.csv`, i.e. columns `reviews,predictions`, 1,851 rows, `test.json` order.
+- **Input:** start from `results/gru_classifier/test_predictions.csv`.
+- **Ignore `data/sampleSubmission.csv`:** its `id,label` format belongs to the other project option.
 
-## 4. Recommendations
+## Data source
 
-### For everyone
-- **Use one shared, de-duplicated split.** Split by unique review text (or drop duplicates first) with stratification and `random_state=42`. Save the indices to `data/split.json` so all three of us use exactly the same validation set.
-- **Select models by validation macro-F1**, not accuracy.
-- **The baseline to beat** is TF-IDF uni+bigram + balanced LogReg: accuracy 0.926 / macro-F1 0.858.
-
-### Person 1: data and baseline (a, f, g)
-- **(a)** Lowercase and tokenise, keeping negations and apostrophes. Fit TF-IDF on the training part only (unigram + bigram, `sublinear_tf`, `min_df=2`). Use `class_weight="balanced"`.
-- **(f)** Compare on the same split:
-  - TF-IDF: sparse, ~38k dims, fits in under a second, but no word order.
-  - GRU embeddings: dense, word order, minutes of training, more memory.
-  - Optionally GloVe or BERT features.
-
-  Report accuracy, macro-F1, train/inference time and memory in one table.
-- **(g)** Hotel reviews without labels is *domain adaptation*. Draw on the paper:
-  - For books vs kitchen, 85–90% of each domain's top-1,000 informative features were not in the other domain's top 1,000 ([acl07], §4).
-  - **SCL / SCL-MI** uses unlabelled target reviews to align domain-specific words through shared "pivot" words such as *excellent* and *awful*.
-  - The **A-distance**, computed from unlabelled data, predicts how much accuracy is lost when moving to a domain (§6).
-  - Labelling just **50 target reviews** to correct the alignment brought the average relative error reduction to 46% (§5).
-  - Modern options: pseudo-labelling or self-training on hotel reviews, and pretrained language models (BERT) that already know general sentiment.
-
-### Person 2: GRU model and tuning (b, c)
-- **Sequence length.** The median is 42 words and p95 is about 145, so use `max_len` 150–200 with truncation and `pack_padded_sequence`. Mention the long tail (max 1,045) in the report.
-- **Vocabulary.** Build it from the training part only, with `min_freq=2`, plus `<pad>` and `<unk>`. Do **not** remove negation words.
-- **Imbalance.** Use a weighted loss: `BCEWithLogitsLoss(pos_weight=…)` or `CrossEntropyLoss(weight=…)`, with weights from the class ratio of about 5.8 : 1. Alternatively, tune the decision threshold on validation.
-- **Architecture.** Embedding (100–300 dims, optionally initialised with GloVe [5]) → **bidirectional GRU** → final hidden state or mean-pooling → dropout → Linear.
-  7.4k training reviews is small for a model trained from scratch. If the GRU does not beat TF-IDF, that is a legitimate result to discuss in (f).
-- **(c) Tuning grid.**
-  - Learning rate {1e-3, 3e-3, 1e-2} × hidden size {64, 128, 256}, with Adam.
-  - Early stopping on validation macro-F1.
-  - Fixed seed, ideally averaged over 3 seeds.
-  - Log every run to a CSV so the table and plots for (c) come for free.
-
-### Person 3: evaluation and submission (d, e, h)
-- **(d)** Write `submission.csv` with columns **`reviews,predictions`** and **1,851 rows in `test.json` order**, the same as `data/submission_template.csv`. Assert row count, order and the label set {0, 1} before submitting.
-- **(e)** Pick examples that are **not** among the 101 test reviews also found in train, otherwise "correct" may just be memorisation.
-  - Good candidates: negation ("not bad at all"), contrast ("love the colour but it fell apart"), sarcasm, and very long reviews that get truncated.
-- **(h)** The data already has rating-based label noise (insight 7). Ways to improve:
-  - Robust losses or label smoothing.
-  - Detect and filter noisy labels: confident learning, or small-loss selection as in co-teaching.
-  - Use the noisy star rating as a soft or ordinal target instead of a hard 0/1.
-
-## References
-
-1. J. Blitzer, M. Dredze, F. Pereira. *Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification.* ACL 2007. [PDF][acl07]
-2. Multi-Domain Sentiment Dataset, v2.0 ([page][mdsd]) and v1 ([page][mdsd1]). Johns Hopkins University.
-3. T. Mikolov et al. *Efficient Estimation of Word Representations in Vector Space.* arXiv:1301.3781, 2013.
-4. J. Devlin et al. *BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.* NAACL 2019.
-5. J. Pennington, R. Socher, C. Manning. *GloVe: Global Vectors for Word Representation.* EMNLP 2014. https://nlp.stanford.edu/projects/glove/
-
-[acl07]: https://www.cs.jhu.edu/~mdredze/publications/sentiment_acl07.pdf
-[mdsd]: https://www.cs.jhu.edu/~mdredze/datasets/sentiment/
-[mdsd1]: https://www.cs.jhu.edu/~mdredze/datasets/sentiment/index2.html
+Blitzer, Dredze & Pereira, *Biographies, Bollywood, Boom-boxes and Blenders: Domain Adaptation for Sentiment Classification*, ACL 2007 ([paper](https://www.cs.jhu.edu/~mdredze/publications/sentiment_acl07.pdf), [dataset](https://www.cs.jhu.edu/~mdredze/datasets/sentiment/)).
+Labels come from star ratings: above 3 stars is positive, below 3 is negative, and 3-star reviews were dropped.

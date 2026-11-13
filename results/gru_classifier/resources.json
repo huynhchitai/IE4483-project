@@ -1,0 +1,25 @@
+{
+ "hardware": "arm CPU, torch 2.15.0, 8 threads",
+ "params": 1097858,
+ "embedding_matrix_mib": 3.43,
+ "checkpoint_mib": 4.3,
+ "val_predict_seconds_single": 0.321,
+ "val_predict_ms_per_review": 0.217,
+ "train_seconds_per_run_mean": 177.2,
+ "epochs_run": [
+  15,
+  15,
+  14
+ ],
+ "peak_rss_mib": 383.6,
+ "val_single_seed42": {
+  "accuracy": 0.927,
+  "macro_f1": 0.8536,
+  "neg_recall": 0.75,
+  "pos_recall": 0.9573,
+  "tn": 162,
+  "fp": 54,
+  "fn": 54,
+  "tp": 1210
+ }
+}
